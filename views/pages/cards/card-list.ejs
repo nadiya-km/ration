@@ -1,0 +1,33 @@
+<%- include('../../partials/navbar') %> <%- include('../../partials/sidebar') %>
+
+<main class="content p-4" style="margin-left: 260px; margin-top: 60px">
+	<div class="d-flex justify-content-between mb-3">
+		<h3>Ration Cards</h3>
+		<a href="/admin/add-card" class="btn btn-primary">Add Card</a>
+	</div>
+
+	<table class="table table-hover">
+		<thead class="table-light">
+			<tr>
+				<th>Card Number</th>
+				<th>Head Name</th>
+				<th>Members Count</th>
+				<th>Card Type</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% cards.forEach(c => { %>
+			<tr>
+				<td><%= c.cardNum %></td>
+				<td><%= c.headName %></td>
+				<td><%= c.membersCount %></td>
+				<td><%= c.cardType %></td>
+				<td>
+					<a href="/admin/card/<%= c._id %>" class="btn btn-sm btn-info">Details</a>
+				</td>
+			</tr>
+			<% }) %>
+		</tbody>
+	</table>
+</main>

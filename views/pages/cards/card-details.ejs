@@ -1,0 +1,41 @@
+<%- include('../../partials/navbar') %> <%- include('../../partials/sidebar') %>
+
+<main class="content p-4" style="margin-left: 260px; margin-top: 60px">
+	<h3>Ration Card Details</h3>
+
+	<div class="card p-3 mb-4">
+		<p>
+			<b>Card Number:</b>
+			<%= card.cardNum %>
+		</p>
+		<p>
+			<b>Head:</b>
+			<%= card.headName %>
+		</p>
+		<p>
+			<b>Members Count:</b>
+			<%= card.membersCount %>
+		</p>
+		<p>
+			<b>Card Type:</b>
+			<span class="badge bg-primary"><%= card.cardType %></span>
+		</p>
+	</div>
+
+	<h5>Allowed Monthly Quota</h5>
+	<ul class="list-group mb-4">
+		<% Object.keys(allowedItems).forEach(item => { %>
+		<li class="list-group-item d-flex justify-content-between">
+			<span><%= item %></span>
+			<span><%= allowedItems[item] %></span>
+		</li>
+		<% }) %>
+	</ul>
+
+	<h5>Card Members</h5>
+	<ul class="list-group">
+		<% members.forEach(m => { %>
+		<li class="list-group-item"><%= m.name %> — Aadhar: <%= m.aadharnum %></li>
+		<% }) %>
+	</ul>
+</main>

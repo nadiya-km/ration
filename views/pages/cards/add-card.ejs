@@ -1,0 +1,109 @@
+<%- include('../../partials/navbar') %> <%- include('../../partials/sidebar') %>
+
+<div
+	class="container"
+	style="margin-left: 250px; padding-top: 80px; display: flex; justify-content: center"
+>
+	<div class="card shadow-sm p-4" style="width: 100%; max-width: 800px; border-radius: 12px">
+		<h4 class="fw-bold text-primary mb-4 text-center">Add Ration Card</h4>
+
+		<form method="POST" action="/admin/add-card">
+			<div class="mb-3">
+				<label class="form-label fw-semibold">Card Number</label>
+				<input
+					type="text"
+					name="cardNum"
+					class="form-control"
+					placeholder="Enter Card Number"
+					required
+				/>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-semibold">Head Name</label>
+				<input
+					type="text"
+					name="headName"
+					class="form-control"
+					placeholder="Head of Family Name"
+					required
+				/>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-semibold">Head Aadhar</label>
+				<input
+					type="text"
+					name="headAadhar"
+					class="form-control"
+					placeholder="Enter Head Aadhar Number"
+				/>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-semibold">Card Type</label>
+				<select name="cardType" class="form-select">
+					<option value="APL">APL</option>
+					<option value="BPL">BPL</option>
+					<option value="AAY">AAY</option>
+				</select>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label fw-semibold">Members</label>
+				<div id="members-wrapper">
+					<div class="member-item mb-2 d-flex gap-2">
+						<input
+							type="text"
+							name="members[0][name]"
+							placeholder="Name"
+							class="form-control"
+							required
+						/>
+						<input type="number" name="members[0][age]" placeholder="Age" class="form-control" />
+						<input
+							type="text"
+							name="members[0][aadharNum]"
+							placeholder="Aadhar"
+							class="form-control"
+						/>
+						<button type="button" class="btn btn-danger btn-sm remove-member">X</button>
+					</div>
+				</div>
+				<button type="button" id="add-member" class="btn btn-secondary btn-sm mt-2">
+					+ Add Member
+				</button>
+			</div>
+
+			<button type="submit" class="btn btn-primary w-100 mt-3">
+				<i class="bi bi-save me-2"></i>
+				Save Card
+			</button>
+		</form>
+	</div>
+</div>
+
+<script>
+	let memberIndex = 1;
+
+	document.getElementById('add-member').addEventListener('click', () => {
+		const wrapper = document.getElementById('members-wrapper');
+		const div = document.createElement('div');
+		div.classList.add('member-item', 'mb-2', 'd-flex', 'gap-2');
+		div.innerHTML = `
+      <input type="text" name="members[${memberIndex}][name]" placeholder="Name" class="form-control" required />
+      <input type="number" name="members[${memberIndex}][age]" placeholder="Age" class="form-control" />
+      <input type="text" name="members[${memberIndex}][aadharNum]" placeholder="Aadhar" class="form-control" />
+      <button type="button" class="btn btn-danger btn-sm remove-member">X</button>
+    `;
+		wrapper.appendChild(div);
+
+		memberIndex++;
+	});
+
+	document.addEventListener('click', function (e) {
+		if (e.target && e.target.classList.contains('remove-member')) {
+			e.target.parentElement.remove();
+		}
+	});
+</script>

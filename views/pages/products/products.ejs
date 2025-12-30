@@ -1,0 +1,70 @@
+<%- include('../../partials/navbar') %>
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+/>
+
+<div class="d-flex">
+	<%- include('../../partials/sidebar') %>
+
+	<main class="flex-grow-1 p-4" style="margin-left: 240px">
+		<div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+			<h4 class="fw-bold">Products</h4>
+			<a href="/admin/add-product" class="btn btn-primary">
+				<i class="bi bi-plus-lg me-2"></i>
+				Add Product
+			</a>
+		</div>
+
+		<div class="card p-3 shadow-sm">
+			<div class="table-responsive">
+				<table class="table table-hover align-middle mb-0">
+					<thead class="table-light">
+						<tr>
+							<th>Name</th>
+							<th>Qty</th>
+							<th>Unit</th>
+							<th>Price/Unit</th>
+							<th>Status</th>
+							<th>Availability</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% products.forEach(product => { %>
+						<tr>
+							<td><%= product.name %></td>
+							<td><%= product.availableQty %></td>
+							<td><%= product.unit %></td>
+							<td>₹<%= product.pricePerUnit %></td>
+							<td><%= product.status || '-' %></td>
+							<td><%= product.availability || '-' %></td>
+							<td>
+								<a
+									href="/admin/products/edit/<%= product._id %>"
+									class="btn btn-sm btn-warning me-1"
+								>
+									<i class="bi bi-pencil"></i>
+								</a>
+								<a href="/admin/products/delete/<%= product._id %>" class="btn btn-sm btn-danger">
+									<i class="bi bi-trash"></i>
+								</a>
+							</td>
+						</tr>
+						<% }) %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</main>
+</div>
+
+<style>
+	/* Ensure sidebar stays full height */
+	.sidebar {
+		position: fixed;
+		top: 56px; /* height of navbar */
+		left: 0;
+		height: 100vh;
+	}
+</style>

@@ -1,10 +1,31 @@
-// const mongoose = require('mongoose');
-// const AdminSchema = new mongoose({
-// 	username: {
-// 		type: String,
-// 		required: true,
-// 	},
-// 	password: String,
-// 	required: true,
-// });
-// module.exports = mongoose.model('Admin', AdminSchema);
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const AdminSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: true,
+	},
+	email: {
+		type: String,
+		required: true,
+		unique: true,
+	},
+	password: {
+		type: String,
+		required: true,
+	},
+	role: { type: String, default: 'admin' },
+});
+
+// hash password bfr save
+AdminSchema.pre('save', async function () {
+	if (!this.isModified('password')) return; // only hash if password changed
+	const salt = await bcrypt.genSalt(10);
+	this.password = await bcrypt.hash(this.password, salt);
+});
+
+// compare password for login
+AdminSchema.methods.comparePassword = async function (enteredPassword) {
+	return await bcrypt.compare(enteredPassword, this.password);
+};
+module.exports = mongoose.model('Admin', AdminSchema);

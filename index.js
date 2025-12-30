@@ -1,39 +1,45 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
 const connectdb = require('./config/db');
-const authRoute = require('./router/auth');
+const { homePage } = require('./controller/admin');
+
+const adminRoute = require('./router/admin');
 const userRoute = require('./router/user');
+const cardRoute = require('./router/card');
+const productRoute = require('./router/product');
 
 app.set('view engine', 'ejs'); //ejs
 
 //middleware
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-port = process.env.port || 5000; //port
+port = process.env.PORT || 5000; //port
 
-// app.use('/admin', authRoute);
-// app.use('/user', userRoute);
+app.use('/admin', adminRoute);
+app.use('/admin', userRoute);
+app.use('/admin', cardRoute);
+app.use('/admin', productRoute);
+
 app.get('/', (req, res) => {
-	return res.render('pages/home');
+	return res.render('pages/layout');
 });
-app.get('/user', (req, res) => {
-	const user = [
-		{
-			name: 'nadiya',
-			num: 20,
-		},
-	];
-	// return res.json(user);
-	return res.render('pages/user');
+app.get('/dashb', (req, res) => {
+	return res.render('pages/dashboard');
 });
+
+// app.get('/card', (req, res) => {
+// 	return res.render('pages/cards/add-card');
+// });
 //404
 app.use((req, res) => {
-	return res.status(404).send('404 page not found!');
+	return res.status(404).render('pages/not-found');
 });
 
 connectdb(); //start server
-app.listen(3000, () => {
+app.listen(port, () => {
 	console.log(`app is running on ${port}`);
 });
